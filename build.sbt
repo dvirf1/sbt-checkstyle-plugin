@@ -6,14 +6,21 @@ organization := "com.etsy"
 
 version := "3.0.1-SNAPSHOT"
 
-scalaVersion := "2.10.4"
+crossSbtVersions := List("0.13.17", "1.1.1")
+
+scalaVersion := {
+  (sbtBinaryVersion in pluginCrossBuild).value match {
+    case "0.13" => "2.10.6"
+    case _      => "2.12.4"
+  }
+}
 
 libraryDependencies ++= Seq(
   "com.puppycrawl.tools" % "checkstyle" % "6.15",
   "net.sf.saxon" % "Saxon-HE" % "9.6.0-5",
-  "org.scalatest" % "scalatest_2.10" % "2.2.1" % "test",
-  "junit" % "junit" % "4.11" % "test",
-  "com.github.stefanbirkner" % "system-rules" % "1.6.0" % "test"
+  "org.scalatest" %% "scalatest" % "3.0.5" % Test,
+  "junit" % "junit" % "4.11" % Test,
+  "com.github.stefanbirkner" % "system-rules" % "1.6.0" % Test
 )
 
 xerial.sbt.Sonatype.sonatypeSettings
